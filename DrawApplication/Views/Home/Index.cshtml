@@ -1,0 +1,49 @@
+﻿@model DrawApplication.Models.ValueModel
+
+@{
+    ViewBag.Title = "Çekiliş Yap";
+}
+
+<h2>Çekiliş Yap</h2>
+
+<form id="drawForm" asp-action="Draw" method="post">
+    <div class="form-group">
+        <label for="Names">İsimler</label>
+        <textarea id="Names" name="Names" class="form-control" rows="5" placeholder="Her satıra bir isim yazın"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="NumberOfWinners">Kazanan Sayısı</label>
+        <input type="number" id="NumberOfWinners" name="NumberOfWinners" class="form-control" min="1" value="1" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Çekilişi Yap</button>
+</form>
+
+@if (ViewBag.WinnersNames != null && ((List<string>)ViewBag.WinnersNames).Count > 0)
+{
+    <div id="results">
+        <h3>@ViewBag.Status</h3>
+        <ul id="winnersList">
+            @foreach (var winner in (List<string>)ViewBag.WinnersNames)
+            {
+                <li>@winner</li>
+            }
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            runConfetti();
+        });
+
+        function runConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 100,
+                origin: { y: 0.8 }
+            });
+        }
+    </script>
+}
